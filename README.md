@@ -1,13 +1,12 @@
 Namara
 ======
 
-The official python client for the Namara Open Data service. [namara.io](http://namara.io)
+The official Ruby client for the Namara Open Data service. [namara.io](https://namara.io)
 
 ## Installation
 
 ```bash
-git clone git@github.com:namara-io/namara-ruby.git
-sudo gem install minitest
+gem install namara
 ```
 
 ## Usage
@@ -15,51 +14,51 @@ sudo gem install minitest
 ### Instantiation
 
 You need a valid API key in order to access Namara (you can find it in your My Account details on namara.io).
-Update config.py with your API_KEY
 
 ```ruby
-from namara import Namara
+require 'namara'
 
-namara = Namara({YOUR_API_KEY})
+namara = Namara.new({YOUR_API_KEY})
 ```
 
 You can also optionally enable debug mode:
 
 ```ruby
-namara = Namara({YOUR_API_KEY}, true)
+namara = Namara.new({YOUR_API_KEY}, true)
 ```
 
 ### Getting Data
 
-To make a basic request to the Namara API you can call `get` on your instantiated object and pass it the ID of the dataset you want and the ID of the version of the data set:
+To make a basic request to the Namara API you can call `get` on your instantiated object
+passing in the ID of the data set you want and the version of the data set:
 
 ```ruby
-response = namara.get('18b854e3-66bd-4a00-afba-8eabfc54f524', 'en-2')
+response = namara.get('5885fce0-92c4-4acb-960f-82ce5a0a4650', 'en-1')
 ```
 
-Without a third options argument passed, this will return data with the Namara default offset (0) and limit (10) applied. To specify options, you can pass an options argument:
+Without a third options argument passed, this will return data with the Namara default offset (0) and limit (250) applied. To specify options, you can pass an options argument:
 
 ```ruby
 options = {
   'offset' => 0,
   'limit' => 150
-};
+}
 
-namara.get('18b854e3-66bd-4a00-afba-8eabfc54f524', 'en-2', options)
+namara.get('5885fce0-92c4-4acb-960f-82ce5a0a4650', 'en-1', options)
 ```
 
 ### Options
 
-All [Namara data options](http://namara.io/#/api) are supported.
+All [Namara data options](https://namara.io/#/api) are supported.
 
 **Basic options**
 
 ```ruby
 options = {
-  'select' => 'p0,p1',
-  'where' => 'p0 = 100 AND nearby(p3, 43.25, -123.1, 10km)',
+  'select' => 'town, geometry',
+  'where' => 'town = "TORONTO" AND nearby(geometry, 43.6, -79.4, 10km)',
   'offset' => 0,
-  'limit' => 10
+  'limit' => 20
 }
 ```
 
@@ -78,10 +77,6 @@ options = {
 }
 ```
 
-### Running Tests
+### License
 
-From command line:
-
-```bash
-ruby -Ilib:test test_namara.rb
-```
+Apache License, Version 2.0
